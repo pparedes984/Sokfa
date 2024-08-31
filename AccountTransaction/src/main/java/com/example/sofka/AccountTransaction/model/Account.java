@@ -1,8 +1,10 @@
 package com.example.sofka.AccountTransaction.model;
 
 import jakarta.persistence.*;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.annotation.Id;
 
-@Entity
 @Table(name = "Account")
 public class Account {
 
@@ -10,17 +12,22 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column("accountNumber")
     private String accountNumber;
 
+    @Column("accountType")
     private String accountType;
-    private Double openingBalance;
-    private Boolean state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clientId", nullable = false)
+    @Column("openingBalance")
+    private Double openingBalance;
+
+    @Column("state")
+    private AccountState state;
+
+    @Column("clientId")
     private Long clientId;
 
-    public Account(String accountNumber, String accountType, Double openingBalance, Boolean state, Long clientId) {
+    public Account(String accountNumber, String accountType, Double openingBalance, AccountState state, Long clientId) {
         this.clientId = clientId;
         this.accountNumber = accountNumber;
         this.accountType = accountType;
@@ -62,11 +69,11 @@ public class Account {
         this.openingBalance = openingBalance;
     }
 
-    public Boolean getState() {
+    public AccountState getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(AccountState state) {
         this.state = state;
     }
 
@@ -79,4 +86,9 @@ public class Account {
     }
 
 
+    public enum AccountState {
+        ACTIVA,
+        INACTIVA
+    }
 }
+

@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n{\r\n    \"name\": \"Paul Paredes\",\r\n    \"gender\": \"MASCULINO\",\r\n    \"age\": 26,\r\n    \"dni\": \"0503556730\",\r\n    \"address\": \"La luz\",\r\n    \"telephone\": \"0983721681\",\r\n    \"password\": \"password\",\r\n    \"state\": \"true\"\r\n}\r\n",
+							"raw": "\r\n{\r\n    \"name\": \"Paul Paredes\",\r\n    \"gender\": \"MASCULINO\",\r\n    \"age\": 26,\r\n    \"dni\": \"0503556730\",\r\n    \"address\": \"La luz\",\r\n    \"telephone\": \"0983721681\",\r\n    \"password\": \"password\",\r\n    \"state\": \"ACTIVO\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"accountNumber\": \"1234567890\",\r\n  \"accountType\": \"AHORROS\",\r\n  \"openingBalance\": 1000.00,\r\n  \"state\": true,\r\n  \"clientId\": 1\r\n}",
+							"raw": "{\r\n  \"accountNumber\": \"100\",\r\n  \"accountType\": \"AHORROS\",\r\n  \"openingBalance\": 5000.00,\r\n  \"state\": \"ACTIVA\",\r\n  \"clientId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -120,7 +120,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"accountType\": \"AHORROS\",\r\n    \"state\": \"false\"\r\n}",
+							"raw": "{\r\n    \"accountType\": \"CORRIENTE\",\r\n    \"state\": \"INACTIVA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -136,7 +136,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8081/cuentas/1"
+						"url": "http://localhost:8081/cuentas/3"
 					},
 					"response": []
 				}
@@ -159,7 +159,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8081/movimientos/1"
+						"url": "http://localhost:8081/movimientos/3"
 					},
 					"response": []
 				},
@@ -170,14 +170,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"balance\": 100.50,\r\n  \"transactionType\": \"DEPOSITO\",\r\n  \"value\": \"Depósito de salario\",\r\n  \"accountId\": 1,\r\n  \"date\": \"2024-08-30T14:00:00Z\"\r\n}",
+							"raw": "{\r\n  \"transactionType\": \"DEBITO\",\r\n  \"value\": 50,\r\n  \"accountId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:8081/movimientos"
+						"url": "http://localhost:8081/movimientos/1"
 					},
 					"response": []
 				},
@@ -188,7 +188,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"balance\": 100.50,\r\n  \"value\": \"Depósito de salario 2\"\r\n}",
+							"raw": "{\r\n  \"transactionType\": 100.50,\r\n  \"value\": \"100\",\r\n  \"accountId\": \"1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +204,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8081/movimientos/1"
+						"url": "http://localhost:8081/movimientos/2"
 					},
 					"response": []
 				}

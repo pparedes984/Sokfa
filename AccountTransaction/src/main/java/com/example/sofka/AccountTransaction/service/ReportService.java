@@ -13,11 +13,14 @@ import java.util.Date;
 @Service
 public class ReportService {
 
-    @Autowired(required=false)
     private AccountRepository accountRepository;
 
-    @Autowired(required = false)
     private TransactionRepository transactionRepository;
+
+    public ReportService (AccountRepository accountRepository, TransactionRepository transactionRepository){
+        this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
+    }
 
     public Mono<ReportResponse> generateReport(Date startDate, Date endDate) {
         return accountRepository.findAll() // Obtén todas las cuentas

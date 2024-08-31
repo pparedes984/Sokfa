@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -18,11 +19,14 @@ public class TransactionService {
 
     private static final Logger logger = LogManager.getLogger(TransactionService.class);
 
-    @Autowired(required = false)
     private TransactionRepository transactionRepository;
 
-    @Autowired(required = false)
+    @Autowired
     private AccountService accountService;
+
+    public TransactionService(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     public Flux<Transaction> getAllTransactions() {
         logger.info("Obteniendo todos los movimientos");
@@ -39,16 +43,20 @@ public class TransactionService {
         logger.info("Creando movimiento asociado al numero de cuenta {}", accountId);
         return accountService.getAccountById(accountId)
                 .flatMap(account -> {
-                    transaction.setDate(new Date());
-                    transaction.setBalance(account.getOpeningBalance() + (transaction.getBalance()));
-                    transaction.setAccount(account);
+                    transaction.setDate(LocalDateTime.now());
+                    if(transaction.getTransactionType().equals("CREDITO")) {
+                        transaction.setBalance(account.getOpeningBalance() + (transaction.getValue()));
+                    }
+                    else {
+                        transaction.setBalance(account.getOpeningBalance() - (transaction.getValue()));
+                    }
+                    transaction.setAccount(account.getId());
 
-                    if (transaction.getBalance() < 0) {
+                    if (account.getOpeningBalance() < transaction.getValue()) {
                         logger.error("Saldo no disponible");
                         return Mono.error(new SaldoInsuficienteException("Saldo no disponible"));
                     }
-
-                    transaction.setBalance(transaction.getBalance());
+                    account.setOpeningBalance(transaction.getBalance());
                     return accountService.updateAccount(accountId, account)
                             .then(transactionRepository.save(transaction));
                 });
@@ -59,10 +67,14 @@ public class TransactionService {
         return transactionRepository.findById(id)
                 .switchIfEmpty(Mono.error(new ResourceNotFoundException("Movimiento no encontrado")))
                 .flatMap(transaction -> {
-                    transaction.setDate(transactionDetails.getDate());
-                    transaction.setTransactionType(transactionDetails.getTransactionType());
-                    transaction.setBalance(transactionDetails.getBalance());
-                    transaction.setValue(transactionDetails.getValue());
+                    if (transactionDetails.getDate() != null)
+                        transaction.setDate(transactionDetails.getDate());
+                    if (transactionDetails.getTransactionType() != null)
+                        transaction.setTransactionType(transactionDetails.getTransactionType());
+                    if (transactionDetails.getBalance() != null)
+                        transaction.setBalance(transactionDetails.getBalance());
+                    if (transactionDetails.getValue() != null)
+                        transaction.setValue(transactionDetails.getValue());
 
                     return transactionRepository.save(transaction);
                 });

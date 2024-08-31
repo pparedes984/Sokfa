@@ -12,10 +12,10 @@ public class Client extends Person{
     private String password;
 
     @Column(nullable = false)
-    private Boolean state;
+    private ClientState state;
 
 
-    public Client(String name, String gender, int age, String dni, String address, String telephone, String password, Boolean state) {
+    public Client(String name, String gender, int age, String dni, String address, String telephone, String password, ClientState state) {
         super(name, gender, age, dni, address, telephone);
         this.password = password;
         this.state = state;
@@ -33,12 +33,17 @@ public class Client extends Person{
         this.password = password;
     }
 
-    public Boolean isState() {
+    public ClientState isState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(ClientState state) {
         this.state = state;
+    }
+
+    public enum ClientState{
+        ACTIVO,
+        INACTIVO;
     }
 }
 

@@ -48,23 +48,6 @@ public class AccountController {
                 });
     }
 
-    /*@PostMapping
-    public Mono<ResponseEntity<Account>> createAccount(
-            @RequestParam("accountNumber") String accountNumber,
-            @RequestParam("accountType") String accountType,
-            @RequestParam("openingBalance") Double openingBalance,
-            @RequestParam("state") boolean state,
-            @RequestParam("clientId") Long clientId) {
-
-        logger.debug("Handling POST request to /cuentas");
-        return accountService.saveAccount(accountNumber, accountType, openingBalance, state, clientId)
-                .map(account -> ResponseEntity.status(HttpStatus.CREATED).body(account))
-                .onErrorResume(e -> {
-                    logger.error("Error al crear cuenta", e);
-                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null));
-                });
-    }*/
-
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Account>> updateAccount(@PathVariable Long id, @RequestBody Account accountDetails) {
         logger.debug("Handling PUT request to /cuentas/{}", id);
