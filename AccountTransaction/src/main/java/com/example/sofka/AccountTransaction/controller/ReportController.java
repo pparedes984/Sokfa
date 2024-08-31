@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -20,9 +21,8 @@ public class ReportController {
 
     @GetMapping
     public Mono<ReportResponse> getReport(
-            @RequestParam Long clientId,
-            @RequestParam Date startDate,
-            @RequestParam Date endDate) {
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
 
 
         return reportService.generateReport(startDate, endDate);
